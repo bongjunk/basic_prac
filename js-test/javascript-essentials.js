@@ -35,7 +35,7 @@ function logical () {
 
   console.log(a); // 1
   console.log(b); // true
-  console.log(c); // true
+  console.log(c); // false
 
   // and 연산자 : a, b, c 가 전부 true인지 확인해서 전부 true인 경우에만 true 반환
   console.log('&&: ', a && b && b); // true
@@ -118,7 +118,7 @@ ifElse();
 // }
 
 // 변수의 유효범위 (Variable Scope)
-// ver, let, const
+// var, let, const
 
 function scope() {
   if (true) {
