@@ -8,7 +8,7 @@
     "build": "parcel build index.html"
   },
   "keywords": [],
-  "author": "",
+  "author": "bongjun",
   "license": "ISC",
   "devDependencies": {
     "parcel": "^2.2.1"
