@@ -1,3 +1,5 @@
+import _ from 'lodash';
+
 const pi = 3.14159265358979;
 console.log(pi);
 
@@ -250,3 +252,126 @@ console.log(toObject(...fruits2));
 
 // console.log(toObject(fruits2[0], fruits2[1], fruits2[2])); // { a: 'Apple', b: 'Banana', c: 'Cherry' }
 // console.log(toObject(...fruits2)); // { a: 'Apple', b: 'Banana', c: 'Cherry' }
+
+
+
+// 데이터 불변성(Immutability)
+// 원시 데이터 : String, Number, Boolean, undefined, null
+// 참조형 데이터 : Object, Array, Function
+// 함수의 인수로 사용되는 또다른 함수를 콜백함수라고함
+
+// 원시 데이터 - 데이터가 불변하기 때문에 데이터의 생김새가 똑같으면 사실상 같은 데이터라 봐도 충분하다.
+// 참조형 데이터 - 불변하는 개념이 아니라 선언할때 마다 새로운 메모리 주소에 참조형 데이터들이 할당될 수 있는 구조
+// 생김새가 같더라도 서로 같은 데이터가 아닐 수 있음, 그래서 한쪽을 수정하면 다른쪽도 수정됨.
+// let a = { k: 1 };
+// let b = { k: 1 };
+// console.log(a, b, a === b); // { k: 1 } { k: 1 } false
+
+// // 같은 메모리 주소를 바라보고 있기 때문에 값이 같아짐
+// a.k = 7;
+// // 할당연산자를 사용했을때, a가 가지고 있는 데이터가 복사되는 개념이 아니고,
+// // 단순하게 메모리 주소만 같은 곳으로 바라보게 만들어 줌. 
+// // a를 수정해도 b가 수정되고, b를 수정해도 a가 수정된다.
+// b = a;
+// console.log(a, b, a === b); // { k: 7 } { k: 7 } true
+
+// a.k = 2;
+// console.log(a, b, a === b); // { k: 2 } { k: 2 } true
+
+// let c = b;
+// console.log(a, b, c, a === c); // { k: 2 } { k: 2 } { k: 2 } true
+
+// a.k = 9;
+// console.log(a, b, c, a === c); // { k: 9 } { k: 9 } { k: 9 } true
+
+
+// 얕은 복사(Shallow copy), 깊은 복사(Deep copy)
+
+const users = {
+  name: 'bongjunk',
+  age: 29,
+  emails: ['bjkim@anidream.co.kr']
+}
+
+// CASE 1 - Call By reference(데이터 복사가 아닌 참조)
+// 데이터가 그대로 하나 더 생성된 것이 아닌 해당 데이터의 메모리 주소를 전달하게되어,
+// 결국 한 데이터를 공유하게 되는것
+// const copyUsers = users;
+// console.log(copyUsers === users); // true
+
+// console.log('users', users); // users { name: 'bongjunk', age: 22, emails: [ 'bjkim@anidream.co.kr' ] }
+// console.log('copyUsers', copyUsers); // copyUsers { name: 'bongjunk', age: 22, emails: [ 'bjkim@anidream.co.kr' ] }
+
+console.log('--------------------------');
+
+// CASE 2
+//                          대상객체, 출처객체
+// const copyUsers = Object.assign({}, users);
+// console.log(copyUsers === users); // false
+
+// 얕은 복사
+// const copyUsers = {...users};
+// console.log(copyUsers === users); // false
+
+// // 같은 데이터를 수정하는것이라 copyUsers에도 영향이감
+// users.age = 22;
+// console.log('users', users); // users { name: 'bongjunk', age: 22, emails: [ 'bjkim@anidream.co.kr' ] }
+// console.log('copyUsers', copyUsers); // copyUsers { name: 'bongjunk', age: 29, emails: [ 'bjkim@anidream.co.kr' ] }
+
+// users.emails.push( 'mydlwm_s@naver.com' );
+// console.log(users.emails === copyUsers.emails); // true
+
+// console.log('users', users); // users { name: 'bongjunk', age: 22, emails: [ 'bjkim@anidream.co.kr', 'mydlwm_s@naver.com' ] }
+// console.log('copyUsers', copyUsers); // users { name: 'bongjunk', age: 22, emails: [ 'bjkim@anidream.co.kr', 'mydlwm_s@naver.com' ] }
+
+// lodash를 이용한 깊은 복사
+const copyUsers = _.cloneDeep(users);
+console.log(copyUsers === users); // false
+
+let objects = [{ 'a': 1 }, { 'b': 2 }];
+
+let deep = _.cloneDeep(objects);
+console.log(deep[0] === objects[0]); // false
+
+// *정리*
+// 객체라던가 배열을 복사할 때는 내부의 또다른 참조데이터가 없다는 전제하에 손쉽게 얕은 복사 사용
+// 특정한 참조데이터 내부에 또다른 참조데이터가 들어가 있다면 깊은 복사를 고려
+
+
+
+const usersA = [
+  { 
+    userId: '1', 
+    name: 'Bongjun' 
+  },
+  { 
+    userId: '2', 
+    name: 'Neo' 
+  }
+];
+
+const usersB = [
+  {
+    userId: '1',
+    name: 'Bongjun2',
+  },
+  {
+    userId: '3',
+    name: 'Amy'
+  }
+];
+
+const usersC = usersA.concat(usersB);
+console.log('concat', usersC);
+console.log('uniqBy', _.uniqBy(usersC, 'userId'));
+
+const usersD = _.unionBy(usersA, usersB, 'userId');
+console.log('unionBy', usersD);
+
+// unionBy [
+//   { userId: '1', name: 'Bongjun' },
+//   { userId: '2', name: 'Neo' },
+//   { userId: '3', name: 'Amy' }
+// ]
+
+
