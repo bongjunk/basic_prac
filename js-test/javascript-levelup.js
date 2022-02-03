@@ -200,8 +200,6 @@ const ab = { k: 123 }
 const ba = { k: 123 }
 console.log(ab === ba); // false
 
-
-
 const user = {
   name: 'Bongjun',
   age: 29,
@@ -337,8 +335,6 @@ console.log(deep[0] === objects[0]); // false
 // 객체라던가 배열을 복사할 때는 내부의 또다른 참조데이터가 없다는 전제하에 손쉽게 얕은 복사 사용
 // 특정한 참조데이터 내부에 또다른 참조데이터가 들어가 있다면 깊은 복사를 고려
 
-
-
 const usersA = [
   { 
     userId: '1', 
@@ -362,9 +358,12 @@ const usersB = [
 ];
 
 const usersC = usersA.concat(usersB);
+
 console.log('concat', usersC);
+// uniqBy : 배열 데이터가 하나일때 사용
 console.log('uniqBy', _.uniqBy(usersC, 'userId'));
 
+// unionBy : 배열 데이터가 여러개일때 사용하는 개념
 const usersD = _.unionBy(usersA, usersB, 'userId');
 console.log('unionBy', usersD);
 
@@ -374,3 +373,57 @@ console.log('unionBy', usersD);
 //   { userId: '3', name: 'Amy' }
 // ]
 
+
+const users2 = [
+  { userId: '1', name: 'BONGJUN' },
+  { userId: '2', name: 'Neo' },
+  { userId: '1', name: 'Amy' },
+  { userId: '1', name: 'Evan' },
+  { userId: '1', name: 'Lewis' },
+];
+
+const foundUser = _.find(users2, { name: 'Amy' });
+const foundUserIndex = _.findIndex(users2, { name : 'Amy' });
+console.log(foundUser); // { userId: '1', name: 'Amy' }
+console.log(foundUserIndex); // 2
+
+_.remove(users2, { name: 'BONGJUN' });
+console.log(users2);
+
+// [
+//   { userId: '2', name: 'Neo' },
+//   { userId: '1', name: 'Amy' },
+//   { userId: '1', name: 'Evan' },
+//   { userId: '1', name: 'Lewis' }
+// ]
+
+// json
+// JavaScript Object Notation - 자바스크립트의 데이터로 표현해야하는 하나의 포맷
+
+const user2 = {
+  name: 'Bongjun',
+  age: 29,
+  emails: [
+    'mydlwm_s@naver.com',
+    'bjkim@anidream.co.kr'
+  ]
+};
+
+// console.log('user2', user2);
+// const str2 = JSON.stringify(user2);
+// console.log(typeof str2);
+
+// const obj = JSON.parse(str2);
+// console.log('obj', obj);
+
+// localStorage
+// user2 객체 데이터를 문자데이터화해서 로컬스토리지의 user2라는 이름으로 저장
+localStorage.setItem('user2', JSON.stringify(user2));
+console.log(JSON.parse(localStorage.getItem('user2')));
+localStorage.removeItem('user2');
+
+// const str3 = localStorage.getItem('user2');
+// const obj = JSON.parse(str3);
+// obj.age = 22;
+// console.log(obj);
+// localStorage.setItem('user2', JSON.stringify(obj));
