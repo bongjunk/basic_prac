@@ -21,4 +21,4 @@ function leakingAny(obj) {
     return b;
 }
 const c = leakingAny({ num: 0 });
-const d = c.indexOf("0");
+const e = c.indexOf("0");
