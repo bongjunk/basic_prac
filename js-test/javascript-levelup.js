@@ -409,12 +409,12 @@ const user2 = {
   ]
 };
 
-// console.log('user2', user2);
-// const str2 = JSON.stringify(user2);
-// console.log(typeof str2);
+console.log('user2', user2);
+const str2 = JSON.stringify(user2);
+console.log(typeof str2);
 
-// const obj = JSON.parse(str2);
-// console.log('obj', obj);
+const obj = JSON.parse(str2);
+console.log('obj', obj);
 
 // localStorage
 // user2 객체 데이터를 문자데이터화해서 로컬스토리지의 user2라는 이름으로 저장
@@ -422,8 +422,8 @@ localStorage.setItem('user2', JSON.stringify(user2));
 console.log(JSON.parse(localStorage.getItem('user2')));
 localStorage.removeItem('user2');
 
-// const str3 = localStorage.getItem('user2');
-// const obj = JSON.parse(str3);
-// obj.age = 22;
-// console.log(obj);
-// localStorage.setItem('user2', JSON.stringify(obj));
+const str3 = localStorage.getItem('user2');
+const obj2 = JSON.parse(str3);
+obj2.age = 22;
+console.log(obj2);
+localStorage.setItem('user2', JSON.stringify(obj2));
